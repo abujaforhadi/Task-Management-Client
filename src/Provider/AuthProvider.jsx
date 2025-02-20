@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import {  GoogleAuthProvider, createUserWithEmailAndPassword,  getAuth,  onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
-import axios from "axios";
 import app from "../Config/firebase.config";
 
 export const AuthContext = createContext(null);
@@ -41,42 +40,14 @@ const AuthProvider = ({ children }) => {
     
     
     useEffect(() => {
-
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
-            const userEmail = currentUser?.email || user?.email;
-            const loggedUser = { email: userEmail };
             setUser(currentUser);
             setLoading(false);
-            // if (currentUser) {
-            //     axios.post('https://task-management-server-two-phi.vercel.app/user', loggedUser, { withCredentials: true })
-            //         .then(res => {
-            //             console.log('token response', res.data);
-            //         })
-            // }
-            // else {
-            //     axios.post('https://task-management-server-two-phi.vercel.app/logout', loggedUser, { withCredentials: true })
-            //         .then(res => {
-            //             console.log(res.data);
-            //         })
-            // }
-            // setLoading(false);
         });
         return () => {
             unSubscribe()
         }
-    }, [user?.email])
-
-
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, currentUser => {
-    //         setUser(currentUser)
-    //         console.log('CurrentUser ==>', currentUser)
-    //         setLoading(false)
-    //     })
-    //     return () => {
-    //         return unsubscribe()
-    //     }
-    // }, [])
+    }, [])
 
     const AuthInfo = {
         loading,
@@ -86,7 +57,6 @@ const AuthProvider = ({ children }) => {
         googleSingUp,
         logOut,
         signIn
-
     }
 
     return (
