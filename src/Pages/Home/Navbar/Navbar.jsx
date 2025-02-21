@@ -26,7 +26,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     
-    { name: "Contact", path: "/contact" },
+    { name: "dashboard", path: "/dashboard", },
     { name: "About", path: "/about" },
   ];
 
@@ -79,7 +79,7 @@ const Navbar = () => {
       <div className="navbar-end flex items-center gap-4">
         <input
           type="checkbox"
-          value="synthwave"
+          value="dark"
           className="toggle theme-controller"
           onChange={(e) => {
             const isChecked = e.target.checked;

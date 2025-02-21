@@ -3,7 +3,7 @@ const Footer = () => {
     return (
         
         <footer >
-            <div className="footer p-10 bg-base-200 text-base-content">
+            <div className="footer p-10  text-base-content">
                 <aside>
                     <p> Task Manager<br />Providing reliable tech since 2010</p>
                 </aside>
@@ -32,7 +32,7 @@ const Footer = () => {
             </div>
             <div className="footer footer-center p-4  bg-neutral  text-base-content">
                 <aside>
-                    <p>Copyright © 2023 - Mostaq-Muzahid All right reserved </p>
+                    <p>Copyright © 2025 - All right reserved </p>
                 </aside>
             </div>
         </footer >
