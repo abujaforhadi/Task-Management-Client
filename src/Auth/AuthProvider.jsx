@@ -7,20 +7,20 @@ import {
   updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
+  getAuth,
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Auth from "../Firebase/Firebase.config"; // Make sure Firebase is initialized here
 import axios from "axios";
+import { app } from "../firebase/firebase.config";
 
-const auth = Auth;
+const auth = getAuth(app);
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Create new user with email, password, displayName, and photoURL
   const createNewUser = async (email, password, displayName, photoURL) => {
     setLoading(true);
     try {

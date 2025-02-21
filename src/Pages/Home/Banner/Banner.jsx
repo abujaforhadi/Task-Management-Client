@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const Banner = () => {
     return (
         <div>
-            <div className=" opacity-70 lg:py-28 py-14 md:py-14 bg-[url('https://media.istockphoto.com/id/1319763895/photo/smiling-mixed-race-mature-man-on-grey-background.jpg?s=1024x1024&w=is&k=20&c=N8tCKAiS77uX8ZGltdjkhzh5pXzvuNHg48acJETZfs8=')]">
+            <div className=" opacity-70 lg:py-28 py-14 md:py-14 bg-black">
                 <div className=" flex-col items-end lg:flex-row-reverse ">
                     
                     <div className="text-center pt-10">

@@ -1,96 +1,130 @@
-import { Link, NavLink } from "react-router-dom";
-import useAuth from "../../../Hooks/useAuth";
-import { FaRegUserCircle } from "react-icons/fa";
-import toast from "react-hot-toast";
-
+import { useEffect, useContext, useState } from "react";
+import { MdOutlineMenuOpen } from "react-icons/md";
+import { Link, NavLink } from "react-router";
+import { themeChange } from "theme-change";
+import { AuthContext } from "../../../Auth/AuthProvider";
 
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-    const { user, logOut } = useAuth()
-    const handelLogout = () => {
-        logOut()
-            .then(() => {
-                toast.success('Successfully Logout')
-            }).catch((error) => {
-                toast.error(error)
-            });
+  useEffect(() => {
+    themeChange(false); 
+  }, []);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      setIsLoggingOut(false);
     }
+  };
 
-    const navLink = <>
-
-        <li><NavLink to="/" className={({ isActive, isPending }) =>
-            isPending ? "pending " : isActive ? " text-[#14a077]" : "lg:text-white font-normal"}>Home
-        </NavLink> </li>
-
-       { user?.email ?  <li><NavLink to="/dashboard" className={({ isActive, isPending }) =>
-            isPending ? "pending " : isActive ? " text-[#14a077]" : "lg:text-white font-normal"}>Dashboard
-        </NavLink> </li> :"" }
-
-        <li><NavLink to="/task" className={({ isActive, isPending }) =>
-            isPending ? "pending " : isActive ? " text-[#14a077]" : "lg:text-white font-normal"}>Tasks
-        </NavLink> </li>
-    </>
-
-
-
+  const navLinks = [
+    { name: "Home", path: "/" },
     
-    return (
-        <div className="navbar max-w-screen-lg  lg:px-10 fixed lg:bg-opacity-10 bg-opacity-90 z-10 bg-white">
-            <div className="navbar-start">
-                <div className="dropdown">
-                    <label tabIndex={0} className="btn btn-ghost md:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-                    </label>
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        {navLink}
-                    </ul>
-                </div>
-                <Link to="/">
-                <a className="btn btn-ghost text-xl">Task Manager</a>
-                </Link>
+    { name: "Contact", path: "/contact" },
+    { name: "About", path: "/about" },
+  ];
 
-            </div>
-
-            <div className="navbar-center md:block hidden ">
-                <ul className="flex gap-5 text-lg font-semibold ">
-                    {navLink}
-                </ul>
-            </div>
-
-            <div className="navbar-end">
-
-                {
-                    user?.email ?
-
-                        <div className="dropdown  dropdown-end">
-                            <label tabIndex={0} className="btn border-[#14a077]  btn-ghost btn-circle avatar ">
-                                <div className="w-10 rounded-full">
-                                    <img src={user.photoURL} />
-                                </div>
-                            </label>
-                            <ul tabIndex={0} className="menu  dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-64">
-                                <li><a>{user.displayName}</a></li>
-                                <li><a>{user.email}</a></li>
-                                <li><a onClick={handelLogout}>Logout</a></li>
-                            </ul>
-                        </div>
-
-                        :
-                        <Link to="login">
-                            <button className="btn bg-white border rounded-full  border-[#14a077] hover:bg-[#2a346f] hover:text-white  ">
-                                <div className="text-2xl">
-                                <FaRegUserCircle />
-                                </div>
-                                Login</button>
-                        </Link>
-
-
-                }
-
-
-            </div>
+  return (
+    <div className="navbar fixed justify-between md:justify-center top-0 left-0 right-0 z-50 shadow bg-base-100 dark:text-white">
+      {/* Logo and Mobile Menu */}
+      <div className="md:navbar-start">
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
+            <MdOutlineMenuOpen />
+          </div>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow dark:text-white left-0 ml-4"
+            role="menu"
+          >
+            {navLinks.map(
+              (link) =>
+                (!link.authRequired || user) && (
+                  <li key={link.name} role="menuitem">
+                    <NavLink to={link.path} className="capitalize hover:bg-[#0FABCA] hover:text-white transition-all duration-200">
+                      {link.name}
+                    </NavLink>
+                  </li>
+                )
+            )}
+          </ul>
         </div>
-    );
+        <Link to="/" className="text-xl md:text-2xl font-medium text-red-600">
+          <span className="text-green-500">Task</span>Manager
+        </Link>
+      </div>
+
+      {/* Desktop Menu */}
+      <div className="navbar-center hidden md:flex">
+        <ul className="menu menu-horizontal text-primary px-1">
+          {navLinks.map(
+            (link) =>
+              (!link.authRequired || user) && (
+                <li key={link.name}>
+                  <NavLink to={link.path} className="capitalize hover:bg-[#0FABCA] hover:text-white transition-all duration-200">
+                    {link.name}
+                  </NavLink>
+                </li>
+              )
+          )}
+        </ul>
+      </div>
+
+      <div className="navbar-end flex items-center gap-4">
+        <input
+          type="checkbox"
+          value="synthwave"
+          className="toggle theme-controller"
+          onChange={(e) => {
+            const isChecked = e.target.checked;
+            if (isChecked) {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
+          }}
+        />
+        {user && user.email ? (
+          <div className="flex items-center gap-4">
+            <img
+              src={user.photoURL || "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"}
+              alt={user.displayName || "User"}
+              title={user.displayName}
+              className="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300"
+            />
+            <button
+              onClick={handleLogout}
+              className="btn bg-[#403F3F] text-white hover:bg-[#2c2b2b] transition"
+              disabled={isLoggingOut}
+            >
+              {isLoggingOut ? "Logging out..." : "Logout"}
+            </button>
+          </div>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="btn bg-[#403F3F] text-white hover:bg-[#2c2b2b] transition"
+            >
+              Login
+            </Link>
+            <Link
+              to="/registration"
+              className="btn bg-[#403F3F] text-white hover:bg-[#2c2b2b] transition hidden md:flex"
+            >
+              Registration
+            </Link>
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Navbar;
