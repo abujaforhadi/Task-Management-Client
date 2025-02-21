@@ -8,11 +8,11 @@ const Audience = () => {
                 <p>Task Made Easy in 100 seconds</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:px-10 px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:px-10 px-6">
 
                 <div className="border-2 border-[#2a346f] bg-[#2a346f] h-[200px] flex flex-col rounded-[15px] overflow-hidden transition-all hover:bg-[#5ae253] hover:border-[#5ae253]  hover:scale-105  hover:shadow-2xl group">
                     <div className="w-full flex-1 flex justify-center items-center hover:bg-[#5ae253] hover:text-white">
-                        <h1 className="text-2xl font-semibold ">Developer</h1>
+                        <h1 className="text-2xl font-semibold text-white ">Developer</h1>
                     </div>
                     <div className="h-[200px] flex-[2] flex flex-col justify-between bg-white rounded-[12px] p-[15px] transition-all">
                         <div className="h-[100px] text-xl text-center flex items-center">
@@ -23,7 +23,7 @@ const Audience = () => {
                 </div>
                 <div className="border-2 border-[#2a346f] bg-[#2a346f] h-[200px] flex flex-col rounded-[15px] overflow-hidden transition-all hover:bg-[#5ae253] hover:border-[#5ae253]  hover:scale-105  hover:shadow-2xl group">
                     <div className="w-full flex-1 flex justify-center items-center hover:bg-[#5ae253] hover:text-white">
-                        <h1 className="text-2xl font-semibold ">Bankers</h1>
+                        <h1 className="text-2xl font-semibold text-white ">Bankers</h1>
                     </div>
                     <div className="h-[200px] flex-[2] flex flex-col justify-between bg-white rounded-[12px] p-[15px] transition-all">
                         <div className="h-[100px] text-xl text-center flex items-center">
@@ -34,7 +34,7 @@ const Audience = () => {
                 </div>
                 <div className="border-2 border-[#2a346f] bg-[#2a346f] h-[200px] flex flex-col rounded-[15px] overflow-hidden transition-all hover:bg-[#5ae253] hover:border-[#5ae253]  hover:scale-105  hover:shadow-2xl group">
                     <div className="w-full flex-1 flex justify-center items-center hover:bg-[#5ae253] hover:text-white">
-                        <h1 className="text-2xl font-semibold">Designers</h1>
+                        <h1 className="text-2xl font-semibold text-white">Designers</h1>
                     </div>
                     <div className="h-[200px] flex-[2] flex flex-col justify-between bg-white rounded-[12px] p-[15px] transition-all">
                         <div className="h-[100px] text-xl text-center flex items-center">
@@ -45,7 +45,7 @@ const Audience = () => {
                 </div>
                 <div className="border-2 border-[#2a346f] bg-[#2a346f] h-[200px] flex flex-col rounded-[15px] overflow-hidden transition-all hover:bg-[#5ae253] hover:border-[#5ae253]  hover:scale-105  hover:shadow-2xl group">
                     <div className="w-full flex-1 flex justify-center items-center hover:bg-[#5ae253] hover:text-white">
-                        <h1 className="text-2xl font-semibold">Corporate Professionals</h1>
+                        <h1 className="text-2xl font-semibold text-white">Corporate Professionals</h1>
                     </div>
                     <div className="h-[200px] flex-[2] flex flex-col justify-between bg-white rounded-[12px] p-[15px] transition-all">
                         <div className="h-[100px] text-xl text-center flex items-center">
@@ -56,7 +56,7 @@ const Audience = () => {
                 </div>
                 <div className="border-2 border-[#2a346f] bg-[#2a346f] h-[200px] flex flex-col rounded-[15px] overflow-hidden transition-all hover:bg-[#5ae253] hover:border-[#5ae253]  hover:scale-105  hover:shadow-2xl group">
                     <div className="w-full flex-1 flex justify-center items-center hover:bg-[#5ae253] hover:text-white">
-                        <h1 className="text-2xl font-semibold">Freelancers</h1>
+                        <h1 className="text-2xl font-semibold text-white">Freelancers</h1>
                     </div>
                     <div className="h-[200px] flex-[2] flex flex-col justify-between bg-white rounded-[12px] p-[15px] transition-all">
                         <div className="h-[100px] text-xl text-center flex items-center">
@@ -67,7 +67,7 @@ const Audience = () => {
                 </div>
                 <div className="border-2 border-[#2a346f] bg-[#2a346f] h-[200px] flex flex-col rounded-[15px] overflow-hidden transition-all hover:bg-[#5ae253] hover:border-[#5ae253]  hover:scale-105  hover:shadow-2xl group">
                     <div className="w-full flex-1 flex justify-center items-center hover:text-white ">
-                        <h1 className="text-2xl font-semibold">Student</h1>
+                        <h1 className="text-2xl font-semibold text-white">Student</h1>
                     </div>
                     <div className="h-[200px] flex-[2] flex flex-col justify-between bg-white rounded-[12px] p-[15px] transition-all">
                         <div className="h-[100px] text-xl text-center flex items-center">

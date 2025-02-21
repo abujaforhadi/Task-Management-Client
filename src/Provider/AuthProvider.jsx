@@ -7,13 +7,14 @@ import {
   updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
+  getAuth,
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Auth from "../Firebase/Firebase.config"; // Make sure Firebase is initialized here
 import axios from "axios";
+import { app } from "../firebase/firebase.config";
 
-const auth = Auth;
+const auth = getAuth(app);
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -65,12 +66,7 @@ const AuthProvider = ({ children }) => {
       const user = result.user;
       setUser(user);
 
-      // Store the user in the database
-      await axios.post("https://a11server.vercel.app/user", {
-        email: user?.email,
-        displayName: user?.displayName,
-        photoURL: user?.photoURL,
-      });
+      
 
       toast.success("Google login successful!");
     } catch (error) {
@@ -107,26 +103,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Monitor authentication state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser?.email) {
-        setUser(currentUser);
-        // Send JWT token request if user is logged in
-        await axios.post("https://a11server.vercel.app/jwt", {
-          email: currentUser?.email,
-        }, { withCredentials: true });
-      } else {
-        setUser(null);
-        // Send logout request if user logs out
-        await axios.post("https://a11server.vercel.app/logout", {}, { withCredentials: true });
-      }
-      setLoading(false);
-    });
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
 
   const authInfo = {
     user,
@@ -137,6 +114,7 @@ const AuthProvider = ({ children }) => {
     loading,
     ProfileUpdate,
     login,
+    
   };
 
   return (
