@@ -35,8 +35,9 @@ export const router = createBrowserRouter([
               element: <AddTask/>,
             },
             {
-              path: "All_Task",
+              index: true,
               element: <MyAddedTask/>,
+
             },
             {
               path: 'updateTask/:id',

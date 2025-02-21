@@ -11,7 +11,6 @@ import {
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 import { app } from "../firebase/firebase.config";
 
 const auth = getAuth(app);
@@ -21,20 +20,24 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Listen for auth state changes (keep the user logged in after refresh)
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
   // Create new user with email, password, displayName, and photoURL
   const createNewUser = async (email, password, displayName, photoURL) => {
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setUser(userCredential?.user);
-
-      // Store the user in the database
-      await axios.post("https://a11server.vercel.app/user", {
-        email,
-        displayName,
-        photoURL,
-      });
-
+      setUser(userCredential.user);
+      await updateProfile(auth.currentUser, { displayName, photoURL });
       toast.success("Account created successfully!");
     } catch (error) {
       console.error(`Error: ${error.message}`);
@@ -63,11 +66,7 @@ const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      setUser(user);
-
-      
-
+      setUser(result.user);
       toast.success("Google login successful!");
     } catch (error) {
       console.error(`Error: ${error.message}`);
@@ -103,8 +102,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-
-
   const authInfo = {
     user,
     setUser,
@@ -114,7 +111,6 @@ const AuthProvider = ({ children }) => {
     loading,
     ProfileUpdate,
     login,
-    
   };
 
   return (

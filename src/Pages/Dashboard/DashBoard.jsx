@@ -23,10 +23,10 @@ const DashBoard = () => {
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
   const menuItems = [
-    { path: "Add_Task", label: "Add Task", icon: <FaChartBar /> },
-    { path: "All_Task", label: "All Task", icon: <FaChartBar /> },
+    { path: "Add_Task", label: "Add Task", icon: <FaTasks /> },
+    { path: "All_Task", label: "All Task", icon: <FaClipboardList /> },
   ];
-
+  
   return (
     <div className="flex h-screen pt-16">
       {/* Sidebar */}
