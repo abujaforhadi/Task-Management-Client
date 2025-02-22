@@ -38,7 +38,7 @@ A modern, real-time task management application with Firebase Authentication, dr
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/abujaforhadi/task-management-app.git
+git clone  https://github.com/abujaforhadi/Task-Management-Client.git
 cd task-management-app
 ```
 
