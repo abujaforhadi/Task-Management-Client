@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import SortableItem from "./SortableItem"; // Create a separate SortableItem component
+import SortableItem from "./SortableItem"; 
 import TodoList from "./TodoList";
 import { AuthContext } from "../../../Auth/AuthProvider";
 

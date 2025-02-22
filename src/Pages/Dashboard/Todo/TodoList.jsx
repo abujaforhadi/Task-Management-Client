@@ -35,38 +35,29 @@ const TodoList = ({ myPost, myPosts, setMyPosts }) => {
   };
 
   const updateTaskStatus = (id, newStatus) => {
-    const statusText = newStatus === "Ongoing" ? "Ongoing" : "Completed";
+    let endpoint = newStatus === "Ongoing" ? "ongoing" : "complete"; // Match backend route
 
-    Swal.fire({
-      title: `Mark task as ${statusText}?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: `Yes, mark as ${statusText}!`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios.patch(`https://taskserverme.vercel.app/tasks/${newStatus.toLowerCase()}/${id}`).then((res) => {
-          if (res.data.modifiedCount > 0) {
-            // Update status directly in state
-            setMyPosts((prev) =>
-              prev.map((task) =>
-                task._id === id ? { ...task, status: newStatus } : task
-              )
-            );
+    axios.patch(`https://taskserverme.vercel.app/tasks/${endpoint}/${id}`)
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          setMyPosts((prev) =>
+            prev.map((task) =>
+              task._id === id ? { ...task, status: newStatus } : task
+            )
+          );
 
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: `Task marked as ${statusText}`,
-              showConfirmButton: false,
-              timer: 1000,
-            });
-          }
-        });
-      }
-    });
-  };
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `Task marked as ${newStatus}`,
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
+      })
+      .catch((error) => console.error("Error updating status:", error));
+};
+
 
   return (
     <div className="my-4">
