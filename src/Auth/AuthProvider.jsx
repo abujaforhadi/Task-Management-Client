@@ -11,7 +11,6 @@ import {
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 import { app } from "../firebase/firebase.config";
 
 const auth = getAuth(app);
@@ -21,22 +20,21 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Create new user & update profile
   const createNewUser = async (email, password, displayName, photoURL) => {
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setUser(userCredential?.user);
+      const newUser = userCredential.user;
 
-      // Store the user in the database
-      await axios.post("https://a11server.vercel.app/user", {
-        email,
-        displayName,
-        photoURL,
-      });
+      // Update profile after account creation
+      await updateProfile(newUser, { displayName, photoURL });
+
+      // Update state with the latest user data
+      setUser({ ...newUser, displayName, photoURL });
 
       toast.success("Account created successfully!");
     } catch (error) {
-      console.error(`Error: ${error.message}`);
       toast.error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
@@ -48,9 +46,16 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       await updateProfile(auth.currentUser, { displayName, photoURL });
+
+      // Fetch the latest user data and update state
+      setUser((prevUser) => ({
+        ...prevUser,
+        displayName,
+        photoURL,
+      }));
+
       toast.success("Profile updated successfully!");
     } catch (error) {
-      console.error("Error updating profile:", error.message);
       toast.error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
@@ -62,19 +67,9 @@ const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      setUser(user);
-
-      // Store the user in the database
-      await axios.post("https://a11server.vercel.app/user", {
-        email: user?.email,
-        displayName: user?.displayName,
-        photoURL: user?.photoURL,
-      });
-
+      setUser(result.user);
       toast.success("Google login successful!");
     } catch (error) {
-      console.error(`Error: ${error.message}`);
       toast.error(`Error: ${error.message}`);
     }
   };
@@ -85,9 +80,9 @@ const AuthProvider = ({ children }) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user);
+      toast.success("Login successful!");
     } catch (error) {
-      console.error("Login error:", error.message);
-      toast.error("Please input valid email or password");
+      toast.error("Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -109,22 +104,11 @@ const AuthProvider = ({ children }) => {
 
   // Monitor authentication state changes
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser?.email) {
-        setUser(currentUser);
-        // Send JWT token request if user is logged in
-        await axios.post("https://a11server.vercel.app/jwt", {
-          email: currentUser?.email,
-        }, { withCredentials: true });
-      } else {
-        setUser(null);
-        // Send logout request if user logs out
-        await axios.post("https://a11server.vercel.app/logout", {}, { withCredentials: true });
-      }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser || null);
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 

@@ -3,7 +3,7 @@
 A modern, real-time task management application with Firebase Authentication, drag-and-drop functionality, and instant syncing using MongoDB.
 
 ## 🚀 Live Demo
-[Task Management App](https://task-d9207.web.app/)
+[Task Management App](https://taskbd-297c8.web.app)
 
 ## 📌 Features
 - 🔐 **Authentication**: Secure login with Firebase (Google Sign-In).
@@ -38,7 +38,7 @@ A modern, real-time task management application with Firebase Authentication, dr
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/yourusername/task-management-app.git
+git clone https://github.com/abujaforhadi/task-management-app.git
 cd task-management-app
 ```
 
