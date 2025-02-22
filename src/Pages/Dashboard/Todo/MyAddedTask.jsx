@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { arrayMove } from "@dnd-kit/sortable";
+import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
+import SortableItem from "./SortableItem"; // Create a separate SortableItem component
 import TodoList from "./TodoList";
 import { AuthContext } from "../../../Auth/AuthProvider";
 
@@ -18,22 +18,25 @@ const MyAddedTask = () => {
     // Handle drag end
     const handleDragEnd = (event) => {
         const { active, over } = event;
-        if (active.id !== over.id) {
-            setMyPosts((items) => {
-                const oldIndex = items.findIndex(item => item._id === active.id);
-                const newIndex = items.findIndex(item => item._id === over.id);
-                return arrayMove(items, oldIndex, newIndex);
-            });
-        }
+
+        if (!over || active.id === over.id) return; // Prevent errors
+
+        setMyPosts((items) => {
+            const oldIndex = items.findIndex(item => item._id === active.id);
+            const newIndex = items.findIndex(item => item._id === over.id);
+            return arrayMove(items, oldIndex, newIndex);
+        });
     };
 
     return (
         <div>
             <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                <SortableContext items={myPosts} strategy={verticalListSortingStrategy}>
+                <SortableContext items={myPosts.map((item) => item._id)} strategy={verticalListSortingStrategy}>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 my-5">
                         {myPosts.map((myPost) => (
-                            <TodoList key={myPost._id} myPost={myPost} />
+                            <SortableItem key={myPost._id} id={myPost._id}>
+                                <TodoList myPost={myPost} setMyPosts={setMyPosts} myPosts={myPosts} />
+                            </SortableItem>
                         ))}
                     </div>
                 </SortableContext>
