@@ -8,7 +8,7 @@ const Audience = () => {
                 <p>Task Made Easy in 100 seconds</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:px-10 px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5 md:px-10 px-6">
 
                 <div className="border-2 border-[#2a346f] bg-[#2a346f] h-[200px] flex flex-col rounded-[15px] overflow-hidden transition-all hover:bg-[#5ae253] hover:border-[#5ae253]  hover:scale-105  hover:shadow-2xl group">
                     <div className="w-full flex-1 flex justify-center items-center hover:bg-[#5ae253] hover:text-white">

@@ -1,21 +1,42 @@
-import { Link } from 'react-router';
+import { Link } from "react-router"; 
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Sphere, MeshDistortMaterial } from "@react-three/drei";
 
 const Banner = () => {
     return (
-        <div>
-            <div className=" opacity-70 lg:py-28 py-14 md:py-14 bg-black">
-                <div className=" flex-col items-end lg:flex-row-reverse ">
-                    
-                    <div className="text-center pt-10">
-                        <h1 className="lg:text-3xl text-2xl font-bold text-[#5ae253] ">Effortless Task Management <br /> Simplify Your Workflow <br />with Our Intuitive Task Manager!</h1>
-                        <p className="py-3 lg:text-md text-white ">Streamline your daily tasks with our intuitive Task Manager.<br /> Stay organized, boost productivity,<br />  and effortlessly manage your projects with ease.</p>
-                        
-                       <Link to='/login'> <button className="btn bg-white border rounded-full  border-[#14a077] hover:bg-[#14a077] hover:text-white">Let’s Explore</button></Link>
-                      
-                    </div>
-                </div>
+        <div className="relative w-full h-screen flex items-center justify-center text-white overflow-hidden">
+            {/* Three.js Canvas Background */}
+            <div className="absolute top-0 left-0 w-full h-full -z-10">
+                <Canvas>
+                    <OrbitControls enableZoom={false} />
+                    <ambientLight intensity={0.5} />
+                    <directionalLight position={[2, 2, 2]} />
+                    <Sphere args={[1, 100, 200]} scale={2.5}>
+                        <MeshDistortMaterial 
+                            color="#5ae253" 
+                            attach="material" 
+                            distort={0.5} 
+                            speed={2} 
+                        />
+                    </Sphere>
+                </Canvas>
             </div>
 
+            {/* Hero Content */}
+            <div className="relative text-center px-6">
+                <h1 className="text-4xl lg:text-5xl font-bold text-[#5ae253]">
+                    Boost Your Productivity <br /> with Smart Task Management
+                </h1>
+                <p className="py-4 text-lg text-gray-500">
+                    Stay organized, plan efficiently, and execute tasks seamlessly. 
+                    Our tool helps you manage projects and boost productivity effortlessly.
+                </p>
+                <Link to="/login">
+                    <button className="btn bg-white border rounded-full px-6 py-3 text-black border-[#14a077] hover:bg-[#14a077] hover:text-white transition">
+                        Get Started
+                    </button>
+                </Link>
+            </div>
         </div>
     );
 };
